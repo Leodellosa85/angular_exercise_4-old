@@ -1,0 +1,5 @@
+<div>
+    <button mat-raised-button color="primary" *ngFor="let button of buttons" (click)="executeAction({data:null, action:button.action})">
+        {{button.label}}
+    </button>
+</div>
