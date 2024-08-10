@@ -6,18 +6,20 @@ import { activateGuard } from './guards/activate.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'blog',
+    redirectTo: 'user',
     pathMatch: 'prefix',
   },
   {
     path: 'book',
     loadChildren: () =>
       import('./modules/book/book.module').then((m) => m.BookModule),
+    canActivate: [activateGuard]
   },
   {
     path: 'blog',
     loadChildren: () =>
       import('./modules/blog/blog.module').then((m) => m.BlogModule),
+    canActivate: [activateGuard]
   },
   {
     path: 'user',

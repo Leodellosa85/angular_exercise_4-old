@@ -1,0 +1,27 @@
+<form [formGroup]="userForm" class="container" (ngSubmit)="onSubmit()">
+    <br/>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" formControlName="name" id="name" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" formControlName="email" id="email" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="bio">Bio</label>
+        <input type="text" formControlName="bio" id="bio" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <input type="text" formControlName="status" id="status" class="form-control">
+    </div>
+    
+    <br/>
+    <br/>
+    <button type="submit" class="btn btn-primary me-1">Submit</button>
+    <button type="button" class="btn btn-danger" (click)="clear()">Clear</button>
+</form>
