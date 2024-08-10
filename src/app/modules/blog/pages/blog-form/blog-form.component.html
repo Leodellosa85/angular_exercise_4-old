@@ -3,11 +3,22 @@
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" formControlName="title" id="title" class="form-control">
+        <div *ngIf="f['title']?.invalid && f['title']?.touched">
+            <div *ngIf="f['title']?.errors?.['required']" class="alert alert-danger">
+                Title is required
+            </div>
+        </div>
     </div>
+
 
     <div class="form-group">
         <label for="description">Description</label>
         <input type="text" formControlName="description" id="description" class="form-control">
+        <div *ngIf="f['description']?.invalid && f['description']?.touched">
+            <div *ngIf="f['description'].errors?.['required']" class="alert alert-danger">
+                Description is required
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label for="author">Author</label>
@@ -27,6 +38,6 @@
     </ng-container>
     <br/>
     <br/>
-    <button type="submit" class="btn btn-primary me-1">Submit</button>
+    <button type="submit" class="btn btn-primary me-1" [disabled]="!blogForm.valid">Submit</button>
     <button type="button" class="btn btn-danger" (click)="clear()">Clear</button>
 </form>

@@ -1,47 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookServiceService {
   
-  constructor() { }
+  
+  serverUrl = 'http://localhost:3000';
 
-  private books: Book[] = [
-    {
-      id: 1,
-      name: 'Eloquent JavaScript, Third Edition',
-      authors: ['Marijn Haverbeke','Nicolás Bevacqua'],
-      isbn: "9781593279509"
-    },
-    {
-      id: 2,
-      name: 'Understanding ECMAScript 6',
-      authors: ['Nicholas C. Zakas','Axel Rauschmayer'],
-      isbn: "9781593277574"
-    },
-    {
-      id: 3,
-      name: 'Learning JavaScript Design Patterns',
-      authors: ['Addy Osmani','Kyle Simpson'],
-      isbn: "9781449331818"
-    },
-  ];
+  constructor(private http: HttpClient) {}
 
-  getBooks(): Book[] {
-    return this.books;
+  getBooks = () => {
+    return this.http.get(`${this.serverUrl}/books`).pipe(tap((data) => data));
+  };
+
+  addBook(book: Book) {
+    return this.http.post(`${this.serverUrl}/books`, book).pipe(
+      tap((x) => {
+        console.log('creating', x);
+      })
+    );
   }
 
-  executeAction = (book: Book, index: number) => {
-    console.log('from parent: ', book.authors, index);
-  };
+  deleteBook(id: number) {
+    return this.http.delete(`${this.serverUrl}/books/${id}`).pipe(
+      tap((x) => {
+        console.log('deleting successful', x);
+      }),
+      
+    );
+  }
 
-  edit = (id: number) => {
-    console.log('Editting this Book with ID: ', id);
-  };
-
-  delete = (id: number) => {
-    console.log('Deleting this Book with ID: ', id);
-  };
+  updateBook(book: Book) {
+    return this.http.put(`${this.serverUrl}/books/${book.id}`, book).pipe(
+      tap((x) => {
+        console.log('updating', x);
+      })
+    );
+  }
 }

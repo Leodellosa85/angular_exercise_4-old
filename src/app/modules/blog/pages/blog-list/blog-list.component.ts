@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Blog } from '../../models/blog';
 import { BlogServiceService } from '../../services/blog-service.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { state } from '@angular/animations';
 
 @Component({
@@ -9,16 +9,28 @@ import { state } from '@angular/animations';
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.scss'
 })
-export class BlogListComponent {
-  blogs: Blog[];
+export class BlogListComponent implements OnInit {
+  blogs: Blog[] | undefined;
 
   buttons = [
     { label: 'Add', action: 'add' },
     { label: 'Delete All', action: 'deleteAll' }
   ];
 
-  constructor(private blogService: BlogServiceService,private router: Router) {
-    this.blogs = blogService.getBlogs();
+  constructor(private route: ActivatedRoute, private router: Router, private blogService: BlogServiceService) { }
+
+  ngOnInit(): void {
+    this.route.data.subscribe((data) => {
+      console.log(data['blogs']);
+      this.blogs = data['blogs'];
+    });
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 
   executeAction = (event: {
@@ -28,13 +40,13 @@ export class BlogListComponent {
     switch (event.action) {
       case 'edit': {
         // navigating to a form
-        this.router.navigateByUrl('/blog-form',{state: event.data});
+        this.router.navigateByUrl('/blog/blog-form', { state: event.data });
         console.log(`editing ${event.data.title}`);
         break;
       }
 
       case 'delete': {
-        this.blogService.delete(event.data.id);
+        this.blogService.deleteBlog(event.data.id).subscribe((data) => { console.log(data), this.reloadCurrentRoute() });
         console.log(`deleting ${event.data.author}`);
         break;
       }
@@ -51,4 +63,5 @@ export class BlogListComponent {
     }
   };
 }
+
 

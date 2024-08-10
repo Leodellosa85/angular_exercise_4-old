@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BookServiceService } from '../../services/book-service.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-book-form',
@@ -12,12 +15,12 @@ export class BookFormComponent {
 
   book: any;
 
-  constructor(private fb: FormBuilder,) {
+  constructor(private fb: FormBuilder,private bookService: BookServiceService,private router: Router) {
     this.book = history.state;
     this.bookForm = this.fb.group({
-      id: this.book.id,
-      name: this.book.name,
-      isbn: this.book.isbn,
+      id: this.book.id ?? null,
+      name: new FormControl(this.book.name,[Validators.required]),
+      isbn: new FormControl(this.book.isbn,[Validators.required]),
       authors: this.fb.array(this.book.authors ?? []),
     });
 
@@ -30,7 +33,17 @@ export class BookFormComponent {
   
   onSubmit = () => {
     console.log(this.bookForm.value);
-    // console.log(this.bookForm.getRawValue())
+    if (this.bookForm.value.id == null)
+    {
+      this.bookForm.removeControl('id');
+      this.bookService.addBook(this.bookForm.value).subscribe((data) => console.log(data));
+      this.router.navigateByUrl('/book');
+    }
+    else
+    {
+      this.bookService.updateBook(this.bookForm.value).subscribe((data) => console.log(data));
+      this.router.navigateByUrl('/book');
+    }
   };
 
   addAuthor() {
@@ -43,5 +56,9 @@ export class BookFormComponent {
 
   clear = () => {
     this.bookForm.reset();
-  };
+  }
+
+  get f(){
+    return this.bookForm.controls;
+  }
 }

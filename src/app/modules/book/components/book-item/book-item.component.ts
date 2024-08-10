@@ -14,12 +14,10 @@ export class BookItemComponent {
     switch (action) {
       case 'edit':
         this.actionEmitter.emit({ data, action });
-        console.log('Edit');
         break;
 
       case 'delete':
         this.actionEmitter.emit({ data, action });
-        console.log('delete');
         break;
     }
   };

@@ -1,47 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Blog } from '../models/blog';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogServiceService {
 
-  constructor() { }
+  serverUrl = 'http://localhost:3000';
 
-  private blogs: Blog[] = [
-    {
-      id: 1,
-      title: 'My 1st Blog',
-      description: 'Travelling alone',
-      author: 'Marijn Haverbeke',
-      comments: ['Travelling alone is fantastic','Finding your self'],
-    },
-    {
-      id: 2,
-      title: 'My 2nd Blog',
-      description: 'Going to Japan with my honney',
-      author: 'Nicholas C. Zakas',
-      comments: ['Eating Ramen','Going to tourist spot'],
-    },
-    {
-      id: 3,
-      title: 'My 3rd Blog',
-      description: 'Eating diffrerent cuisine',
-      author: 'Addy Osmani',
-      comments: ['Eating in different towns','Tasting delicious foods'],
-    },
-  ];
+  constructor(private http: HttpClient) {}
 
-  getBlogs(): Blog[] {
-    return this.blogs;
+  getBlogs = () => {
+    return this.http.get(`${this.serverUrl}/blogs`).pipe(tap((data) => data));
+  };
+
+  addBlog(blog: Blog) {
+    return this.http.post(`${this.serverUrl}/blogs`, blog).pipe(
+      tap((x) => {
+        console.log('creating', x);
+      })
+    );
   }
 
-  edit = (id: number) => {
-    console.log('Editting this Blog with ID: ', id);
-  };
+  deleteBlog(id: number) {
+    return this.http.delete(`${this.serverUrl}/blogs/${id}`).pipe(
+      tap((x) => {
+        console.log('deleting successful', x);
+      }),
+      
+    );
+  }
 
-  delete = (id: number) => {
-    console.log('Deleting this Blog with ID: ', id);
-  };
+  updateBlog(blog: Blog) {
+    return this.http.put(`${this.serverUrl}/blogs/${blog.id}`, blog).pipe(
+      tap((x) => {
+        console.log('updating', x);
+      })
+    );
+  }
+
 }
 

@@ -10,7 +10,6 @@ import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button'; 
 
 
-
 @NgModule({
   declarations: [
     BlogItemComponent,
@@ -18,7 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
     BlogFormComponent
   ],
   imports: [
-    CommonModule,BlogRoutingModule,SharedModule,ReactiveFormsModule,MatListModule,MatButtonModule 
+    CommonModule,BlogRoutingModule,SharedModule,ReactiveFormsModule,MatListModule,MatButtonModule
   ]
 })
 export class BlogModule { }
