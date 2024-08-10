@@ -60,13 +60,6 @@
       ]
     },
     {
-      "id": "b2e4",
-      "title": "game",
-      "description": "www",
-      "author": null,
-      "comments": []
-    },
-    {
       "id": "1",
       "title": "My 1st Blog",
       "description": "Travelling alone",
@@ -98,6 +91,13 @@
       "firstName": "Leo",
       "lastName": "Dellosa",
       "id": "mGbi5H_"
+    },
+    {
+      "email": "baby@gamil.com",
+      "password": "$2a$10$Cf6kmHP05gUoOtghmtz3k.xVUfVhSjRpyXoDufYdvcld3OA2Yl/ki",
+      "firstName": "Baby",
+      "lastName": "",
+      "id": "Rodm2wV"
     }
   ]
 }

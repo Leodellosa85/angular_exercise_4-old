@@ -52,7 +52,7 @@ export class BlogListComponent implements OnInit {
       }
 
       case 'add': {
-        this.router.navigateByUrl('/blog-form');
+        this.router.navigateByUrl('/blog/blog-form');
         console.log('add...');
         break;
       }
